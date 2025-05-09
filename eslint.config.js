@@ -2,11 +2,12 @@ import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import { defineConfig } from 'eslint/config';
-// import prettier from 'eslint-plugin-prettier';
-import eslintConfigPrettier from "eslint-config-prettier/flat"
+import prettierPlugin from 'eslint-plugin-prettier'; 
 
 export default defineConfig([
-  {
+  { files: ['**/*.{js,mjs,cjs,ts}'], plugins: { js }, extends: ['js/recommended'] },
+  { files: ['**/*.{js,mjs,cjs,ts}'], languageOptions: { globals: globals.node } },
+    {
     files: ['**/*.{ts,js}'],
     languageOptions: {
       parserOptions: {
@@ -17,20 +18,21 @@ export default defineConfig([
     },
     ...js.configs.recommended,
     ignores: ['**/temp.js', 'config/*'],
+    plugins: {
+      '@typescript-eslint': tseslint.plugin,
+      prettier: prettierPlugin, 
+    },
     rules: {
-      // ...prettier.rules,
       'no-console': 'warn',
       'no-unused-vars': 'warn',
-      eqeqeq: ['error', 'always'],
       curly: 'error',
-      semi: ['error', 'always'],
+      semi: 'error',
       quotes: ['error', 'single'],
-      'prefer-const': 'error',
+      eqeqeq: ['error', 'always'],
       '@typescript-eslint/interface-name-prefix': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
     },
   },
-  eslintConfigPrettier,
   ...tseslint.configs.recommended,
 ]);

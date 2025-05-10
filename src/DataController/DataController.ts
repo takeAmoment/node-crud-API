@@ -42,4 +42,26 @@ export class DataController {
       }
     });
   }
+
+  addUser(body: Omit<User, 'id'>): Promise<ISuccessResponse<IUser>> {
+    return new Promise((resolve, reject) => {
+      const { age, username, hobbies } = body;
+      if (age && username && hobbies) {
+        const newUser = new User({ age, username, hobbies });
+        this.users.push(newUser);
+
+        const result: ISuccessResponse<IUser> = {
+          code: StatusCodesEnum.CREATED,
+          data: newUser,
+        };
+        resolve(result);
+      } else {
+        const error: IFailedResponse = {
+          code: StatusCodesEnum.BAD_REQUEST,
+          message: ResponseMessagesEnum.INVALID_BODY,
+        };
+        reject(error);
+      }
+    });
+  }
 }

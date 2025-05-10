@@ -6,6 +6,7 @@ import { DataController } from '../DataController/DataController';
 import { sendResponse } from '../utils/sendResponse';
 import { ResponseMessagesEnum, StatusCodesEnum } from '../types/enums';
 import { IFailedResponse } from '../types/types';
+import { getReqBody } from '../utils/getReqBody';
 
 export class Router {
   public dataController: DataController;
@@ -37,11 +38,22 @@ export class Router {
     if (isGettingAllUsers) {
       const result = await this.dataController.getAllUsers();
       sendResponse({ code: result.code, data: result.data, res });
+    } else {
+      const userId = this.findId(req, res);
+      try {
+        const { code, data } = await this.dataController.getUserById(userId);
+        sendResponse({ code, data, res });
+      } catch (error) {
+        const { code, message } = error as IFailedResponse;
+        sendResponse({ code, data: { message }, res });
+      }
     }
+  }
 
-    const userId = this.findId(req, res);
+  async post(req: IncomingMessage, res: ServerResponse<IncomingMessage>) {
     try {
-      const { code, data } = await this.dataController.getUserById(userId);
+      const body = await getReqBody(req);
+      const { code, data } = await this.dataController.addUser(body);
       sendResponse({ code, data, res });
     } catch (error) {
       const { code, message } = error as IFailedResponse;

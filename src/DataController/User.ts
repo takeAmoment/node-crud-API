@@ -8,7 +8,7 @@ export class User implements IUser {
   public age: number;
   public hobbies: string[];
 
-  constructor ({ username, age, hobbies }: Omit<IUser, 'id'>) {
+  constructor({ username, age, hobbies }: Omit<IUser, 'id'>) {
     this.id = uuidv4();
     this.username = username;
     this.age = age;

@@ -5,7 +5,7 @@ export interface IFindRouteProps {
   method: string;
   pathname: string;
   req: IncomingMessage;
-  res: ServerResponse
+  res: ServerResponse;
 }
 
 export interface IUser {
@@ -15,15 +15,19 @@ export interface IUser {
   hobbies: Array<string>;
 }
 
-
 export interface ISendResponseProps<T> {
   code: number;
   data: T;
-  res: ServerResponse<IncomingMessage>
+  res: ServerResponse<IncomingMessage>;
 }
 
 export interface ISuccessResponse<T> {
   code: StatusCodesEnum;
   message?: string;
   data: T;
+}
+
+export interface IFailedResponse {
+  code: StatusCodesEnum;
+  message: string;
 }

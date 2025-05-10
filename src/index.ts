@@ -9,7 +9,7 @@ const startProgram = () => {
   const server = http.createServer((req, res) => {
     const pathname = req.url || '';
     const method = req.method || 'GET';
-    findRoute({ method, pathname, req, res});
+    findRoute({ method, pathname, req, res });
   });
 
   server.listen(PORT, () => {

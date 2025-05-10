@@ -1,11 +1,15 @@
 import http from 'http';
 import 'dotenv/config';
 
-const PORT = process.env.PORT;
+import { findRoute } from './utils/utils';
+
+const PORT = process.env.PORT || 3000;
 
 const startProgram = () => {
   const server = http.createServer((req, res) => {
-    console.log(req, res);
+    const pathname = req.url || '';
+    const method = req.method || 'GET';
+    findRoute({ method, pathname, req, res});
   });
 
   server.listen(PORT, () => {

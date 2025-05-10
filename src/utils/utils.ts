@@ -16,6 +16,9 @@ export const findRoute = ({ method, pathname, req, res }: IFindRouteProps) => {
     case method === HttpMethodsEnum.POST && pathname === USERS_URL:
       router.post(req, res);
       break;
+    case method === HttpMethodsEnum.PUT && pathname.startsWith(USERS_URL):
+      router.put(req, res);
+      break;
     default:
       console.log(req.url);
   }

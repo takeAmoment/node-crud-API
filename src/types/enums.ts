@@ -1,6 +1,7 @@
 export enum HttpMethodsEnum {
   GET = 'GET',
   POST = 'POST',
+  PUT = 'PUT',
 }
 
 export enum StatusCodesEnum {

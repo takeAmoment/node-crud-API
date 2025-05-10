@@ -64,4 +64,30 @@ export class DataController {
       }
     });
   }
+
+  updateUser(
+    id: string,
+    body: Omit<User, 'id'>,
+  ): Promise<ISuccessResponse<IUser>> {
+    return new Promise((resolve, reject) => {
+      const user = this.findUserById(id);
+      if (user) {
+        const index = this.users.findIndex((user) => user.id === id);
+        const updatedUser = { ...user, ...body };
+        this.users[index] = updatedUser;
+
+        const result: ISuccessResponse<IUser> = {
+          code: StatusCodesEnum.CREATED,
+          data: updatedUser,
+        };
+        resolve(result);
+      } else {
+        const error: IFailedResponse = {
+          code: StatusCodesEnum.NOT_FOUND,
+          message: ResponseMessagesEnum.USER_NOT_FOUND,
+        };
+        reject(error);
+      }
+    });
+  }
 }

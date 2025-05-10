@@ -60,4 +60,17 @@ export class Router {
       sendResponse({ code, data: { message }, res });
     }
   }
+
+  async put(req: IncomingMessage, res: ServerResponse<IncomingMessage>) {
+    const id = this.findId(req, res);
+
+    try {
+      const body = await getReqBody(req);
+      const { code, data } = await this.dataController.updateUser(id, body);
+      sendResponse({ code, data, res });
+    } catch (error) {
+      const { code, message } = error as IFailedResponse;
+      sendResponse({ code, data: { message }, res });
+    }
+  }
 }

@@ -90,4 +90,25 @@ export class DataController {
       }
     });
   }
+
+  deleteUser(id: string): Promise<ISuccessResponse<{ message: string }>> {
+    return new Promise((resolve, reject) => {
+      const user = this.findUserById(id);
+
+      if (user) {
+        this.users = this.users.filter((user) => user.id !== id);
+        const result: ISuccessResponse<{ message: string }> = {
+          code: StatusCodesEnum.NO_CONTENT,
+          data: { message: ResponseMessagesEnum.DELETED },
+        };
+        resolve(result);
+      } else {
+        const error: IFailedResponse = {
+          code: StatusCodesEnum.NOT_FOUND,
+          message: ResponseMessagesEnum.USER_NOT_FOUND,
+        };
+        reject(error);
+      }
+    });
+  }
 }

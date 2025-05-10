@@ -73,4 +73,16 @@ export class Router {
       sendResponse({ code, data: { message }, res });
     }
   }
+
+  async delete(req: IncomingMessage, res: ServerResponse<IncomingMessage>) {
+    const id = this.findId(req, res);
+
+    try {
+      const { code, data } = await this.dataController.deleteUser(id);
+      sendResponse({ code, data, res });
+    } catch (error) {
+      const { code, message } = error as IFailedResponse;
+      sendResponse({ code, data: { message }, res });
+    }
+  }
 }

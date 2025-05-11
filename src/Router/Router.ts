@@ -26,7 +26,9 @@ export class Router {
         data: { message: ResponseMessagesEnum.INVALID_ID },
         res,
       });
+      return null;
     }
+
     return id;
   }
 
@@ -40,6 +42,9 @@ export class Router {
       sendResponse({ code: result.code, data: result.data, res });
     } else {
       const userId = this.findId(req, res);
+      if (!userId) {
+        return;
+      }
       try {
         const { code, data } = await this.dataController.getUserById(userId);
         sendResponse({ code, data, res });
@@ -63,6 +68,9 @@ export class Router {
 
   async put(req: IncomingMessage, res: ServerResponse<IncomingMessage>) {
     const id = this.findId(req, res);
+    if (!id) {
+      return;
+    }
 
     try {
       const body = await getReqBody(req);
@@ -76,6 +84,9 @@ export class Router {
 
   async delete(req: IncomingMessage, res: ServerResponse<IncomingMessage>) {
     const id = this.findId(req, res);
+    if (!id) {
+      return;
+    }
 
     try {
       const { code, data } = await this.dataController.deleteUser(id);

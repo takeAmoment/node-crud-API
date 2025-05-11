@@ -1,7 +1,15 @@
 import { USERS_URL } from '../constants/constants';
 import { Router } from '../Router/Router';
-import { HttpMethodsEnum } from '../types/enums';
+import {
+  HttpMethodsEnum,
+  ResponseMessagesEnum,
+  StatusCodesEnum,
+} from '../types/enums';
 import { IFindRouteProps } from '../types/types';
+import { sendResponse } from './sendResponse';
+
+const checkIsMatch = (url: string) =>
+  /^\/api\/users\/([a-zA-Z0-9]+)$/.test(url);
 
 export const findRoute = ({ method, pathname, req, res }: IFindRouteProps) => {
   const router = new Router();
@@ -10,19 +18,24 @@ export const findRoute = ({ method, pathname, req, res }: IFindRouteProps) => {
     case method === HttpMethodsEnum.GET && pathname === USERS_URL:
       router.get(req, res, true);
       break;
-    case method === HttpMethodsEnum.GET && pathname.startsWith(USERS_URL):
+    case method === HttpMethodsEnum.GET && checkIsMatch(pathname):
       router.get(req, res, false);
       break;
     case method === HttpMethodsEnum.POST && pathname === USERS_URL:
       router.post(req, res);
       break;
-    case method === HttpMethodsEnum.PUT && pathname.startsWith(USERS_URL):
+    case method === HttpMethodsEnum.PUT && checkIsMatch(pathname):
       router.put(req, res);
       break;
-    case method === HttpMethodsEnum.DELETE && pathname.startsWith(USERS_URL):
+    case method === HttpMethodsEnum.DELETE && checkIsMatch(pathname):
       router.delete(req, res);
       break;
     default:
-      console.log(req.url);
+      sendResponse({
+        code: StatusCodesEnum.NOT_FOUND,
+        data: { message: ResponseMessagesEnum.WRONG_URL },
+        res,
+      });
+      break;
   }
 };

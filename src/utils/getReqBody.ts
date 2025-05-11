@@ -1,6 +1,7 @@
 import { IncomingMessage } from 'http';
 
-import { IUser } from '../types/types';
+import { IFailedResponse, IUser } from '../types/types';
+import { ResponseMessagesEnum, StatusCodesEnum } from '../types/enums';
 
 export const getReqBody = (req: IncomingMessage): Promise<IUser> => {
   return new Promise((resolve, reject) => {
@@ -15,7 +16,11 @@ export const getReqBody = (req: IncomingMessage): Promise<IUser> => {
       resolve(result);
     });
 
-    req.on('error', (error) => {
+    req.on('error', (err) => {
+      const error: IFailedResponse = {
+        code: StatusCodesEnum.INTERNAL_SERVER_ERROR,
+        message: `${ResponseMessagesEnum.SERVER_ERROR} ${err.message}`,
+      };
       reject(error);
     });
   });

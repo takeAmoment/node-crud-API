@@ -11,6 +11,7 @@ export enum StatusCodesEnum {
   NOT_FOUND = 404,
   CREATED = 201,
   NO_CONTENT = 204,
+  INTERNAL_SERVER_ERROR = 500,
 }
 
 export enum ResponseMessagesEnum {
@@ -18,4 +19,6 @@ export enum ResponseMessagesEnum {
   USER_NOT_FOUND = 'User is not found.',
   INVALID_BODY = 'Required fields are absent.',
   DELETED = 'User was deleted.',
+  WRONG_URL = 'Such endpoint does not exist',
+  SERVER_ERROR = 'Something went wrong.',
 }

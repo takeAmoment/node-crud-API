@@ -11,8 +11,8 @@ import { getReqBody } from '../utils/getReqBody';
 export class Router {
   public dataController: DataController;
 
-  constructor() {
-    this.dataController = new DataController();
+  constructor(dataController: DataController) {
+    this.dataController = dataController;
   }
 
   findId(req: IncomingMessage, res: ServerResponse<IncomingMessage>) {

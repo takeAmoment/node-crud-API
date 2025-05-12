@@ -1,14 +1,11 @@
 import { IFailedResponse, ISuccessResponse, IUser } from '../types/types';
 import { ResponseMessagesEnum, StatusCodesEnum } from '../types/enums';
-import { User } from './User';
-
-const users: Array<IUser> = [];
-users.push(new User({ username: 'Waria', age: 45, hobbies: [] }));
+import { User } from '../User/User';
 
 export class DataController {
   public users: Array<IUser>;
 
-  constructor() {
+  constructor(users: Array<IUser>) {
     this.users = users;
   }
 

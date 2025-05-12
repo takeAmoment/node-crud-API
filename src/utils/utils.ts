@@ -1,18 +1,19 @@
 import { USERS_URL } from '../constants/constants';
+import { DataController } from '../DataController/DataController';
 import { Router } from '../Router/Router';
 import {
   HttpMethodsEnum,
   ResponseMessagesEnum,
   StatusCodesEnum,
 } from '../types/enums';
-import { IFindRouteProps } from '../types/types';
+import { IFindRouteProps} from '../types/types';
 import { sendResponse } from './sendResponse';
 
-const checkIsMatch = (url: string) =>
-  /^\/api\/users\/([a-zA-Z0-9]+)$/.test(url);
+const checkIsMatch = (url: string) => /^\/api\/users\/([a-zA-Z0-9]+)/.test(url);
 
-export const findRoute = ({ method, pathname, req, res }: IFindRouteProps) => {
-  const router = new Router();
+export const findRoute = ({ method, pathname, req, res, users }: IFindRouteProps) => {
+  const dataController = new DataController(users);
+  const router = new Router(dataController);
 
   switch (true) {
     case method === HttpMethodsEnum.GET && pathname === USERS_URL:

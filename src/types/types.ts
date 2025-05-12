@@ -6,6 +6,7 @@ export interface IFindRouteProps {
   pathname: string;
   req: IncomingMessage;
   res: ServerResponse;
+  users: Array<IUser>
 }
 
 export interface IUser {

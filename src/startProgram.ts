@@ -8,7 +8,6 @@ export const createServer = (port: number | string, getUsers: () => Array<IUser>
     const users = getUsers();
     const pathname = req.url || '';
     const method = req.method || 'GET';
-    console.log(method, port, pathname);
     findRoute({ method, pathname, req, res, users });
   });
 

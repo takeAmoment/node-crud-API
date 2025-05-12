@@ -18,7 +18,6 @@ users.push(new User({ username: 'Waria', age: 45, hobbies: [] }));
 const createLoadBalancer = (port: number, workersAmount: number) => {
   let workerIndex = 1;
 
-
   const server = http.createServer((serverReq, serverRes) => {
     if (!cluster.workers) {
       return;
@@ -74,6 +73,11 @@ const createLoadBalancer = (port: number, workersAmount: number) => {
 
 const startLoadBalancer = () => {
   const cpusAmount = cpus().length;
+
+  if(!PORT) {
+    console.error('Please create env file with PORT.');
+    process.exit(1);
+  }
 
   if (cluster.isPrimary  ) {
 

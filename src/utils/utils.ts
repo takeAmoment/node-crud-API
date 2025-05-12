@@ -37,6 +37,5 @@ export const findRoute = ({ method, pathname, req, res, users }: IFindRouteProps
         data: { message: ResponseMessagesEnum.WRONG_URL },
         res,
       });
-      break;
   }
 };

@@ -13,12 +13,16 @@ export class DataController {
     return this.users.find((user) => user.id === id);
   }
 
-  async getAllUsers(): Promise<ISuccessResponse<Array<IUser>>> {
-    const result: ISuccessResponse<Array<IUser>> = {
-      code: StatusCodesEnum.OK,
-      data: this.users,
-    };
-    return result;
+  getAllUsers(): Promise<ISuccessResponse<Array<IUser>>> {
+    return new Promise((resolve) => {
+      const result: ISuccessResponse<Array<IUser>> = {
+        code: StatusCodesEnum.OK,
+        data: this.users,
+      };
+      // process.send?.({type: 'UPDATE_USERS', message: this.users});
+      resolve(result);
+    });
+
   }
 
   getUserById(id: string): Promise<ISuccessResponse<IUser>> {
@@ -51,12 +55,14 @@ export class DataController {
           code: StatusCodesEnum.CREATED,
           data: newUser,
         };
+        // process.send?.({type: 'UPDATE_USERS', message: this.users});
         resolve(result);
       } else {
         const error: IFailedResponse = {
           code: StatusCodesEnum.BAD_REQUEST,
           message: ResponseMessagesEnum.INVALID_BODY,
         };
+        // process.send?.({message: this.users});
         reject(error);
       }
     });
@@ -74,7 +80,7 @@ export class DataController {
         this.users[index] = updatedUser;
 
         const result: ISuccessResponse<IUser> = {
-          code: StatusCodesEnum.CREATED,
+          code: StatusCodesEnum.OK,
           data: updatedUser,
         };
         resolve(result);
@@ -93,7 +99,9 @@ export class DataController {
       const user = this.findUserById(id);
 
       if (user) {
-        this.users = this.users.filter((user) => user.id !== id);
+        const userIndex = this.users.findIndex((item) => item.id === id);
+        this.users.splice(userIndex, 1);
+  
         const result: ISuccessResponse<{ message: string }> = {
           code: StatusCodesEnum.NO_CONTENT,
           data: { message: ResponseMessagesEnum.DELETED },

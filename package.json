@@ -7,9 +7,8 @@
   "scripts": {
     "start": "node dist/index.js",
     "build": "tsc",
-    "dev": "tsc --watch",
     "start:dev": "npx nodemon",
-    "start:prod": "npm run build && node ./build/index.js",
+    "start:prod": "npm run build && node dist/index.js",
     "start:multi": "npx tsx ./src/index.ts",
     "lint": "eslint \"src/**/*.ts\" --fix",
     "format": "prettier --ignore-path .gitignore --write \"src/**/*.ts\"",
